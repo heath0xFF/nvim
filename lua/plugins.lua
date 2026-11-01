@@ -1,7 +1,7 @@
 return {
     -- theme
     {
-        dir = "~/code/stillwater",
+        "heath0xFF/stillwater",
         lazy = false,
         priority = 1000, -- make sure to load this before all the other start plugins
         config = function()
