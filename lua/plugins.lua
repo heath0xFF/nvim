@@ -24,17 +24,6 @@ return {
         opts = require "configs.mason",
     },
 
-    {
-        "mason-org/mason-lspconfig.nvim",
-        opts = function()
-            return require "configs.mason-lspconfig"
-        end,
-        dependencies = {
-            { "mason-org/mason.nvim", opts = {} },
-            "neovim/nvim-lspconfig",
-        },
-    },
-
     -- TODO: consider adding telescope-fzf-native as a dependency for faster fuzzy finding
     {
         "nvim-telescope/telescope.nvim",
@@ -45,12 +34,20 @@ return {
 
     {
         "nvim-treesitter/nvim-treesitter",
-        event = { "BufReadPost", "BufNewFile" },
-        cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
+        lazy = false,
         build = ":TSUpdate",
         config = function()
-            local opts = require "configs.treesitter"
-            require("nvim-treesitter").setup(opts)
+            require("nvim-treesitter").install(require "configs.treesitter")
+            vim.api.nvim_create_autocmd("FileType", {
+                group = vim.api.nvim_create_augroup("TreesitterHighlight", { clear = true }),
+                callback = function(event)
+                    local lang = vim.treesitter.language.get_lang(vim.bo[event.buf].filetype)
+                    -- Parsers can still be installing on the first launch.
+                    if lang and vim.treesitter.language.add(lang) then
+                        vim.treesitter.start(event.buf, lang)
+                    end
+                end,
+            })
         end,
     },
     {
@@ -142,23 +139,5 @@ return {
     {
         "lewis6991/gitsigns.nvim",
         opts = require "configs.gitsigns",
-    },
-    {
-        "folke/zen-mode.nvim",
-        cmd = "ZenMode",
-        opts = {
-            window = {
-                width = 80,
-                options = {
-                    number = false,
-                    relativenumber = false,
-                    signcolumn = "no",
-                },
-            },
-            plugins = {
-                twilight = { enabled = false },
-                gitsigns = { enabled = false },
-            },
-        },
     },
 }

@@ -28,12 +28,10 @@ map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Grep text" })
 map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "List Buffers" })
 map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "Find Help" })
 map("n", "<leader>ft", "<cmd>Telescope treesitter<CR>", { desc = "Treesitter" })
--- TODO: "lsp_document_diagnostics" is deprecated in Telescope — use "diagnostics" instead
 map("n", "<leader>fd", "<cmd>Telescope diagnostics<CR>", { desc = "Document Diagnostics" })
 map("n", "<leader>fr", "<cmd>Telescope lsp_references<CR>", { desc = "LSP References" })
 map("n", "<leader>fs", "<cmd>Telescope lsp_document_symbols<CR>", { desc = "Document Symbols" })
 map("n", "<leader>fw", "<cmd>Telescope lsp_workspace_symbols<CR>", { desc = "Workspace Symbols" })
--- TODO: "lsp_code_actions" was removed from Telescope — use vim.lsp.buf.code_action() directly
 map("n", "<leader>fl", "<cmd>lua vim.lsp.buf.code_action()<CR>", { desc = "Code Actions" })
 
 -- Move to previous/next
@@ -53,6 +51,3 @@ map("n", "-", "<CMD>Oil<CR>", { desc = "open parent directory" })
 
 -- journaling
 vim.keymap.set("n", "<leader>j", ":r Templates/Journal.md<CR>", { desc = "Insert journal template" })
-
--- zen mode
-vim.keymap.set("n", "<leader>zz", "<cmd>ZenMode<cr>")

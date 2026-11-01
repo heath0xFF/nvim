@@ -18,12 +18,9 @@ M.on_attach = function(client, bufnr)
     map("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
 end
 
--- TODO: semantic tokens are disabled — if intentional (prefer treesitter-only highlighting), keep this;
--- otherwise re-enabling gives richer highlighting for some languages (e.g. rust, typescript)
+-- Let Tree-sitter control syntax highlighting.
 M.on_init = function(client, _)
-    if client.supports_method "textDocument/semanticTokens" then
-        client.server_capabilities.semanticTokensProvider = nil
-    end
+    client.server_capabilities.semanticTokensProvider = nil
 end
 
 -- Capabilities
@@ -57,13 +54,9 @@ M.defaults = function()
                 },
             },
         },
-        -- TODO: pyright has type checking OFF and most diagnostics suppressed — consider either:
-        --   1. Switching to pylsp for a lighter-weight Python LSP
-        --   2. Setting typeCheckingMode to "basic" for useful warnings without the noise
-        --   3. If using basedpyright, the settings key should match ("basedpyright" not "pyright")
         pyright = {
             settings = {
-                basedpyright = {
+                python = {
                     analysis = {
                         typeCheckingMode = "off",
                         diagnosticMode = "openFilesOnly",
